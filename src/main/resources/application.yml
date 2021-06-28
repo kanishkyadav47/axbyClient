@@ -1,0 +1,13 @@
+server:
+  port: 8081
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000000
+        readTimeout: 5000000
+        loggerLevel: basic
+
+axbyBaseUrl: http://localhost:8080/
+
