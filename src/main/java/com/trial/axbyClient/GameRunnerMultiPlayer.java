@@ -55,7 +55,8 @@ public class GameRunnerMultiPlayer implements CommandLineRunner {
     }
 
 
-    private boolean checkStatus(String message) {
+    private boolean checkStatus() {
+        String message = moveApi.getBoard().getMoveMessage();
         return gameStatusChecker.toContinue(message);
     }
 
@@ -98,18 +99,13 @@ public class GameRunnerMultiPlayer implements CommandLineRunner {
     }
 
     private boolean makeMove(Player player) throws IOException {
-        switch(moveApi.myTurn(player.getId())){
-            case "continue":
+        if(moveApi.myTurn(player.getId())){
                 displayBoard();
                 int nStack = readStackNumber(player);
                 moveApi.makeMove(player.getId(), nStack);
                 displayBoard();
-                return true;
-            case "not":
-                return false;
-            default:
-                return true;
         }
+        return checkStatus();
     }
 
     private void displayBoard() {

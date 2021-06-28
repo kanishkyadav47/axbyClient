@@ -17,7 +17,7 @@ public interface MoveApi {
 
     //@RequestLine("GET /myturn/{playerId}")
     @RequestMapping(method = RequestMethod.GET, value = "/myturn/{playerId}")
-    String myTurn(@PathVariable("playerId") int id);
+    boolean myTurn(@PathVariable("playerId") int id);
 
     @RequestMapping(method = RequestMethod.GET, value = "/board")
     Board getBoard();
@@ -26,7 +26,7 @@ public interface MoveApi {
     boolean bothPlayersPresent();
 
     @RequestMapping(method = RequestMethod.POST, value = "/rematch")
-    boolean rematch();
+    void rematch();
 
     @RequestMapping(method = RequestMethod.POST, value = "/endgame")
     void endGame();

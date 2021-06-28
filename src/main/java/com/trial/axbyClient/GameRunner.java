@@ -45,11 +45,10 @@ public class GameRunner implements CommandLineRunner {
                 moveCount++;
             }
 
-            makeMove(player);
-            gameOver = !checkStatus();
+            gameOver = !makeMove(player);
 
             if(gameOver)
-                rePlay();
+                gameOver = rePlay();
         }
     }
 
@@ -88,21 +87,25 @@ public class GameRunner implements CommandLineRunner {
         return new Player(id, name);
     }
 
-    private void makeMove(Player player) throws IOException {
-        switch(moveApi.myTurn(player.getId())){
-            case "continue":
+    private boolean makeMove(Player player) throws IOException {
+        if(validFirstMove() || validNextMoves()){
                 displayBoard();
                 int nStack = readStackNumber(player);
                 moveApi.makeMove(player.getId(), nStack);
                 displayBoard();
-                break;
-            case "playerLeft":
-                System.out.println("\nOther Player left.");
-                endGame();
-                break;
-            default:
-                break;
+        }else if(!moveApi.bothPlayersPresent()){
+            System.out.println("\nOther Player left.");
+            endGame();
         }
+        return checkStatus();
+    }
+
+    private boolean validFirstMove() {
+        return moveApi.myTurn(player.getId()) && moveCount == 1;
+    }
+
+    private boolean validNextMoves() {
+        return moveApi.myTurn(player.getId()) && moveApi.bothPlayersPresent();
     }
 
     private void displayBoard() {
@@ -137,19 +140,22 @@ public class GameRunner implements CommandLineRunner {
         System.exit(0);
     }
 
-    private void
-    rePlay() throws IOException {
+    private boolean rePlay() throws IOException {
         if (moveApi.bothPlayersPresent()) {
             System.out.println("\nUp for rematch? Y/n");
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            if (reader.readLine().equalsIgnoreCase("Y"))
+            if (reader.readLine().equalsIgnoreCase("Y")) {
                 moveApi.rematch();
+                return false;
+            }
             else
                 endGame();
         }
         else{
             System.out.println("\nOther Player left.");
-            endGame();}
+            endGame();
+        }
+        return true;
     }
 
 }
