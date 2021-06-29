@@ -11,3 +11,9 @@ feign:
 
 axbyBaseUrl: http://localhost:8080/
 
+spring:
+  main:
+    banner-mode: "off"
+logging:
+  pattern:
+    console:

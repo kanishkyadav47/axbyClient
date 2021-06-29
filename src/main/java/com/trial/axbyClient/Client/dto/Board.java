@@ -2,6 +2,9 @@ package com.trial.axbyClient.Client.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board {
 
     @JsonProperty("depth")
@@ -30,7 +33,7 @@ public class Board {
         this.state = state;
     }
 
-    public void display(){
+    public void display2(){
         int n = state.length;
         System.out.println("\n\n");
         for(int i = 0; i < state.length; i++){
@@ -43,6 +46,32 @@ public class Board {
             else
                 System.out.print("[x]  ");
         }
+    }
+
+    public void display() {
+        System.out.println("\n\n");
+        List<String> list = new ArrayList<>();
+        String line = "";
+        for (int i = 0; i < state.length; i++) {
+
+            if (i % 9 == 0 && i != 0)  {
+                list.add(line);
+                line = "";
+            }
+            if (state[i].equals("Empty"))
+                line += "[ ]  ";
+            else if (state[i].equals("BLACK"))
+                line += "[O]  ";
+            else
+                line += "[X]  ";
+
+            if(i == state.length-1){
+                list.add(line);
+            }
+
+        }
+        for( int i = list.size()-1; i >= 0; i-- )
+            System.out.println(list.get(i));
     }
 
 

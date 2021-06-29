@@ -93,6 +93,7 @@ public class GameRunner implements CommandLineRunner {
                 int nStack = readStackNumber(player);
                 moveApi.makeMove(player.getId(), nStack);
                 displayBoard();
+                System.out.println("\nIts opponents turn now.");
         }else if(!moveApi.bothPlayersPresent()){
             System.out.println("\nOther Player left.");
             endGame();
@@ -118,7 +119,9 @@ public class GameRunner implements CommandLineRunner {
         boolean invalidInput;
         do{
             invalidInput = false;
-            System.out.println("\nMake your move, "+ player.getName() + ". Choose stack from 1 to 9.");
+            char marker = player.getId()==1 ? 'X' : 'O';
+            System.out.println("\nMake your move, "+ player.getName() + ". Choose stack from 1 to 9. Your marker : " + marker);
+            System.out.print(">");
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             try{
                 nStack = Integer.parseInt(reader.readLine());
@@ -126,7 +129,7 @@ public class GameRunner implements CommandLineRunner {
                     throw new Exception();
             }catch (Exception e){
                 invalidInput = true;
-                System.out.println("Please enter a number from 1 to 9.");
+                System.out.println("Invalid input, please enter a number from 1 to 9.");
             }
         }
         while(invalidInput);
