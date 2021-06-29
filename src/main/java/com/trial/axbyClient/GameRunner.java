@@ -122,7 +122,7 @@ public class GameRunner implements CommandLineRunner {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             try{
                 nStack = Integer.parseInt(reader.readLine());
-                if(nStack < 0 || nStack > 9)
+                if(nStack <= 0 || nStack > 9)
                     throw new Exception();
             }catch (Exception e){
                 invalidInput = true;
